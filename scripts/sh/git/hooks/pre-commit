@@ -1,0 +1,16 @@
+#!/bin/sh
+
+for file_name in $(git diff --name-only --cached); do
+ 	echo "$(java -jar $CHECKSTYLE -c /sun_checks.xml $file_name)"
+done
+
+# Allows us to read user input below, assigns stdin to keyboard
+exec < /dev/tty
+
+read -n 1 -p "proceed with commit = y / n : " choice
+  if [ "$choice" = "y" ]; then
+            exit 0
+        else
+            exit 1
+        fi
+
